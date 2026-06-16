@@ -6,12 +6,20 @@ import cors from "cors";
 import fs from "fs";
 import path from "path";
 import job from "./lib/corn.js";
-
-const app = express();
+import clerkWebhook from "./webhooks/clerk.webhook.js";
+import authRoutes from "./routes/auth.route.js";
+import messageRoutes from "./routes/message.route.js";
+import { protectRoute } from "./middlewares/auth.middleware.js";
+import { app, server } from "./lib/socket.js";
 
 const PORT = process.env.PORT || 8000;
 const publicDir = path.join(process.cwd(), "public");
 
+app.use(
+  "/api/webhooks/clerk",
+  express.raw({ type: "application/json" }),
+  clerkWebhook,
+);
 app.use(express.json());
 app.use(
   cors({
@@ -24,6 +32,8 @@ app.use(clerkMiddleware());
 app.get("/health", (_, res) => {
   res.status(200).json({ ok: true });
 });
+app.use("/api/auth", protectRoute, authRoutes);
+app.use("/api/messages", protectRoute, messageRoutes);
 
 if (fs.existsSync(publicDir)) {
   app.use(express.static(publicDir));
@@ -32,8 +42,8 @@ if (fs.existsSync(publicDir)) {
   });
 }
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   connectDB();
   console.log(`Server is running on http://localhost:${PORT}`);
-  if(process.env.NODE_ENV==='production') job.start();
+  if (process.env.NODE_ENV === "production") job.start();
 });
