@@ -3,10 +3,18 @@ import ChatPage from "./pages/ChatPage";
 import AuthPage from "./pages/AuthPage";
 import { useAuth } from "@clerk/react";
 import Loader from "./components/Loader";
+import { useAuthStore } from "./store/useAuthStore";
+import { useEffect } from "react";
 
 function App() {
   const { isLoaded, isSignedIn } = useAuth();
-  if(!isLoaded) return <Loader />;
+  const { clearAuth, isCheckingAuth, checkAuth } = useAuthStore();
+  useEffect(() => {
+    if (!isLoaded) return;
+    if (isSignedIn) checkAuth();
+    else clearAuth();
+  }, [checkAuth, clearAuth, isLoaded, isSignedIn]);
+  if (!isLoaded || (isSignedIn && isCheckingAuth)) return <Loader />;
   return (
     <Routes>
       <Route

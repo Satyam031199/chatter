@@ -6,6 +6,7 @@ import { ClerkProvider } from "@clerk/react";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { WallpaperProvider } from "./context/WallpaperContext.jsx";
 import { BrowserRouter } from "react-router";
+import { Toaster } from 'react-hot-toast';
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -17,6 +18,7 @@ createRoot(document.getElementById("root")).render(
           </WallpaperProvider>
         </ThemeProvider>
       </BrowserRouter>
+      <Toaster /> 
     </ClerkProvider>
   </StrictMode>,
 );

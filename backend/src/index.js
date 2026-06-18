@@ -10,6 +10,7 @@ import clerkWebhook from "./webhooks/clerk.webhook.js";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 import { protectRoute } from "./middlewares/auth.middleware.js";
+import { loggerMiddleware } from "./middlewares/logger.middleware.js";
 import { app, server } from "./lib/socket.js";
 
 const PORT = process.env.PORT || 8000;
@@ -20,6 +21,7 @@ app.use(
   express.raw({ type: "application/json" }),
   clerkWebhook,
 );
+app.use(loggerMiddleware);
 app.use(express.json());
 app.use(
   cors({
