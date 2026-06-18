@@ -84,14 +84,15 @@ export const sendMessage = async (req, res) => {
     let imageUrl;
     let videoUrl;
     if (req.file) {
-      if (!hasImageKitConfig())
+      if (!hasImageKitConfig()) {
         return res
           .status(500)
-          .json({ message: "ImageKit secret is not provided." });
+          .json({ message: "Media upload is not configured" });
+      }
+      const url = await uploadChatMedia(req.file);
+      if (req.file.mimetype.startsWith("video/")) videoUrl = url;
+      else imageUrl = url;
     }
-    const url = await uploadChatMedia(req.file);
-    if (req.file.mimetype.startsWith("video/")) videoUrl = url;
-    else imageUrl = url;
     const newMessage = new Message({
       senderId,
       receiverId,
@@ -99,13 +100,18 @@ export const sendMessage = async (req, res) => {
       image: imageUrl,
       video: videoUrl,
     });
+
     await newMessage.save();
+
     const receiverSocketId = getReceiverSocketId(receiverId);
-    if (receiverSocketId)
+    // only send the message in realtime if user is online
+    if (receiverSocketId) {
       io.to(receiverSocketId).emit("newMessage", newMessage);
-    return res.status(201).json(newMessage);
+    }
+
+    res.status(201).json(newMessage);
   } catch (error) {
-    console.log("Error in sendMessage: ", error.message);
-    return res.status(500).json({ message: "Internal Server Error" });
+    console.error("Error in sendMessage:", error.message);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
