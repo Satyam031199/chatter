@@ -1,7 +1,7 @@
 import { Avatar } from "@heroui/react";
 import { AvatarWithOnlineIndicator } from "./AvatarWithOnlineIndicator";
 
-export const ConversationRow = ({ user, selected, onSelect }) => {
+export function ConversationRow({ user, selected, onSelect }) {
   return (
     <button
       type="button"

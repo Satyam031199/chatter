@@ -1,4 +1,4 @@
-import { isImageKitUrl, withTransform } from '../../lib/imageKit.js';
+import { isImageKitUrl, withTransform } from "../../lib/imagekit";
 
 // Chat videos are stored on ImageKit, so we let ImageKit optimize delivery
 // on the fly via URL transformations (compressed + sized for the bubble).
@@ -8,14 +8,14 @@ const VIDEO_TRANSFORM = "q-80,w-640";
 const POSTER_TRANSFORM = "q-80,w-640";
 
 /** ImageKit can extract a poster frame by appending `/ik-thumbnail.jpg`. */
-const buildPosterUrl = (url) => {
+function buildPosterUrl(url) {
   if (!isImageKitUrl(url)) return undefined;
   const [path] = url.split("?");
   return withTransform(`${path}/ik-thumbnail.jpg`, POSTER_TRANSFORM);
-};
+}
 
 /** ImageKit-optimized chat video with an auto-generated poster frame. */
-const MessageVideo = ({ src }) => {
+export function MessageVideo({ src }) {
   const optimizedSrc = withTransform(src, VIDEO_TRANSFORM);
   const posterSrc = buildPosterUrl(src);
 
@@ -29,6 +29,4 @@ const MessageVideo = ({ src }) => {
       className="mb-1.5 max-h-52 max-w-full rounded-lg object-contain sm:max-h-64 sm:rounded-xl"
     />
   );
-};
-
-export default MessageVideo;
+}

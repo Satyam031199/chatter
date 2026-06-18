@@ -1,6 +1,6 @@
-export const APP_NAME = "chatter";
+export const APP_NAME = "Chatter";
 
-export const AppLogo = ({ className = "", size = 32, alt = APP_NAME }) => {
+export function AppLogo({ className = "", size = 32, alt = APP_NAME }) {
   return (
     <img
       src="/logo.png"
@@ -11,4 +11,4 @@ export const AppLogo = ({ className = "", size = 32, alt = APP_NAME }) => {
       draggable={false}
     />
   );
-};
+}

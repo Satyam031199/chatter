@@ -5,9 +5,12 @@ import {
   getUsersForSidebar,
   sendMessage,
 } from "../controllers/message.controller.js";
-import { upload } from "../middlewares/upload.middleware.js";
+import { protectRoute } from "../middleware/auth.middleware.js";
+import { upload } from "../middleware/upload.middleware.js";
 
 const router = express.Router();
+
+router.use(protectRoute);
 
 router.get("/users", getUsersForSidebar);
 router.get("/conversations", getConversationsForSidebar);

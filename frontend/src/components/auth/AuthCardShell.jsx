@@ -6,7 +6,7 @@ const cardClassName = [
   "dark:shadow-[0_40px_100px_-28px_rgba(0,0,0,0.75),0_0_0_1px_rgba(255,255,255,0.06)_inset]",
 ].join(" ");
 
-const AuthCardShell = ({ children }) => {
+export function AuthCardShell({ children }) {
   return (
     <div className="relative z-10 mx-auto w-full max-w-105">
       <div className="relative">
@@ -35,5 +35,3 @@ const AuthCardShell = ({ children }) => {
     </div>
   );
 }
-
-export default AuthCardShell;

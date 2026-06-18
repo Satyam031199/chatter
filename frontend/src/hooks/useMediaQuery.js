@@ -1,6 +1,9 @@
 import { useSyncExternalStore } from "react";
 
-export const useMediaQuery = (query) => {
+/**
+ * Subscribes to a CSS media query
+ */
+export function useMediaQuery(query) {
   return useSyncExternalStore(
     (onChange) => {
       const mq = window.matchMedia(query);
@@ -10,4 +13,4 @@ export const useMediaQuery = (query) => {
     () => window.matchMedia(query).matches,
     () => false,
   );
-};
+}

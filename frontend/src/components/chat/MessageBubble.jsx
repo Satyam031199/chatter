@@ -1,18 +1,16 @@
-import { withTransform } from "../../lib/imageKit.js";
-import MessageVideo from "./MessageVideo";
+import { withTransform } from "../../lib/imagekit";
+import { MessageVideo } from "./MessageVideo";
 
 // Compress + size images for the bubble (q-auto works for images; f-auto picks WebP/AVIF).
 const IMAGE_TRANSFORM = "q-auto,w-640,f-auto";
 
-const MessageBubble = ({ message }) => {
+export function MessageBubble({ message }) {
   const isOwnMessage = message.role === "me";
   const hasImage = Boolean(message.imageUrl);
   const hasVideo = Boolean(message.videoUrl);
 
   return (
-    <div
-      className={`flex w-full ${isOwnMessage ? "justify-end" : "justify-start"}`}
-    >
+    <div className={`flex w-full ${isOwnMessage ? "justify-end" : "justify-start"}`}>
       <div
         className={`max-w-[min(90%,28rem)] rounded-2xl px-3 py-2 text-[15px] leading-snug sm:max-w-[min(75%,28rem)] sm:px-3.5 ${
           isOwnMessage
@@ -41,6 +39,4 @@ const MessageBubble = ({ message }) => {
       </div>
     </div>
   );
-};
-
-export default MessageBubble;
+}

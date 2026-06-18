@@ -1,10 +1,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { axiosInstance, BASE_URL } from "../lib/axios";
-import { io } from "socket.io-client";
+
+import { axiosInstance } from "../lib/axios";
+import { useAuthStore } from "./useAuthStore";
 import toast from "react-hot-toast";
-import { useAuthStore } from "./useAuthStore.js";
-import { APP_NAME } from "../components/AppLogo.jsx";
 
 export const useChatStore = create(
   persist(
@@ -143,7 +142,7 @@ export const useChatStore = create(
       },
     }),
     {
-      name: `${APP_NAME}-storage`,
+      name: "chatter-storage",
       partialize: (state) => ({ isSoundEnabled: state.isSoundEnabled }),
     },
   ),

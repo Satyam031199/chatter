@@ -1,11 +1,11 @@
 import { Button, TextArea } from "@heroui/react";
 import { ImageIcon, LoaderIcon, SendHorizontalIcon } from "lucide-react";
 import { useRef } from "react";
-import { useKeyboardSound } from "../../hooks/useKeyboardSound.js";
-import { useChatStore } from "../../store/useChatStore.js";
-import { useSelectedConversation } from "../../hooks/useSelectedConversation.js";
+import useKeyboardSound from "../../hooks/useKeyboardSound";
+import { useChatStore } from "../../store/useChatStore";
+import { useSelectedConversation } from "../../hooks/useSelectedConversation";
 
-const ChatComposer = () => {
+export function ChatComposer() {
   const composerText = useChatStore((state) => state.composerText);
   const isSoundEnabled = useChatStore((state) => state.isSoundEnabled);
   const sendMediaMessage = useChatStore((state) => state.sendMediaMessage);
@@ -78,7 +78,7 @@ const ChatComposer = () => {
         <TextArea
           fullWidth
           variant="secondary"
-          placeholder="iMessage"
+          placeholder="Chatter"
           rows={1}
           value={composerText}
           onChange={handleComposerTextChange}
@@ -91,17 +91,10 @@ const ChatComposer = () => {
           className="flex-1 rounded-full"
         />
 
-        <Button
-          variant="primary"
-          isIconOnly
-          isDisabled={!composerText.trim()}
-          onPress={handleSend}
-        >
+        <Button variant="primary" isIconOnly isDisabled={!composerText.trim()} onPress={handleSend}>
           <SendHorizontalIcon className="size-5" />
         </Button>
       </div>
     </footer>
   );
-};
-
-export default ChatComposer;
+}

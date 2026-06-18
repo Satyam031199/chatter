@@ -1,18 +1,19 @@
 import { Avatar, Button } from "@heroui/react";
 import { ChevronLeftIcon, Volume2Icon, VolumeXIcon, XIcon } from "lucide-react";
 import { AppLogo } from "../AppLogo";
-import { AvatarWithOnlineIndicator } from "./AvatarWithOnlineIndicator.jsx";
-import { ThemePresetPicker } from "../ThemePresetPicker.jsx";
-import { ThemeToggle } from "../ThemeToggle.jsx";
-import { WallpaperPicker } from "../WallpaperPicker.jsx";
-import { useChatStore } from "../../store/useChatStore.js";
-import { useSelectedConversation } from "../../hooks/useSelectedConversation.js";
+import { AvatarWithOnlineIndicator } from "./AvatarWithOnlineIndicator";
 
-const ChatHeader = () => {
+import { ThemePresetPicker } from "../ThemePresetPicker";
+
+import { ThemeToggle } from "../ThemeToggle";
+import { WallpaperPicker } from "../WallpaperPicker";
+
+import { useChatStore } from "../../store/useChatStore";
+import { useSelectedConversation } from "../../hooks/useSelectedConversation";
+
+export function ChatHeader() {
   const isSoundEnabled = useChatStore((state) => state.isSoundEnabled);
-  const setActiveConversationId = useChatStore(
-    (state) => state.setActiveConversationId,
-  );
+  const setActiveConversationId = useChatStore((state) => state.setActiveConversationId);
   const setSoundEnabled = useChatStore((state) => state.setSoundEnabled);
 
   const { activeConversation, isLargeScreen } = useSelectedConversation();
@@ -33,9 +34,7 @@ const ChatHeader = () => {
 
       {activeConversation ? (
         <>
-          <AvatarWithOnlineIndicator
-            isOnline={activeConversation.peer.isOnline ?? true}
-          >
+          <AvatarWithOnlineIndicator isOnline={activeConversation.peer.isOnline ?? true}>
             <Avatar className="size-9 shrink-0">
               <Avatar.Image
                 alt={activeConversation.peer.name}
@@ -64,9 +63,7 @@ const ChatHeader = () => {
         <div className="flex flex-1 items-center gap-2.5 sm:text-left">
           <AppLogo size={36} className="rounded-[9px]" />
           <div className="flex-1 text-center sm:text-left">
-            <p className="truncate text-[13px] font-medium text-muted">
-              Select a conversation
-            </p>
+            <p className="truncate text-[13px] font-medium text-muted">Select a conversation</p>
           </div>
         </div>
       )}
@@ -109,6 +106,4 @@ const ChatHeader = () => {
       </div>
     </header>
   );
-};
-
-export default ChatHeader;
+}

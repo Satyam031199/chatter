@@ -2,7 +2,7 @@ import { useClerk } from "@clerk/react";
 import { Button } from "@heroui/react";
 import { ArrowRightIcon, ShieldCheckIcon, SparklesIcon } from "lucide-react";
 import { AppLogo } from "../AppLogo";
-import AuthCardShell from "./AuthCardShell";
+import { AuthCardShell } from "./AuthCardShell";
 
 const AFTER_AUTH = "/";
 
@@ -20,7 +20,7 @@ const continueButtonClassName = [
   "dark:after:shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]",
 ].join(" ");
 
-const AuthActionPanel = () => {
+export function AuthActionPanel() {
   const clerk = useClerk();
 
   return (
@@ -77,5 +77,3 @@ const AuthActionPanel = () => {
     </section>
   );
 }
-
-export default AuthActionPanel;

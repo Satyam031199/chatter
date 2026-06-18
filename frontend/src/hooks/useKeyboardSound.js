@@ -6,16 +6,15 @@ const keyStrokeSounds = [
   new Audio("/sounds/keystroke4.mp3"),
 ];
 
-export const useKeyboardSound = () => {
+function useKeyboardSound() {
   const playRandomKeyStrokeSound = () => {
-    const randomSound =
-      keyStrokeSounds[Math.floor(Math.random() * keyStrokeSounds.length)];
+    const randomSound = keyStrokeSounds[Math.floor(Math.random() * keyStrokeSounds.length)];
 
     randomSound.currentTime = 0; // this is for a better UX, def add this
-    randomSound
-      .play()
-      .catch((error) => console.log("Audio play failed:", error));
+    randomSound.play().catch((error) => console.log("Audio play failed:", error));
   };
 
   return { playRandomKeyStrokeSound };
-};
+}
+
+export default useKeyboardSound;

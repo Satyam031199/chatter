@@ -1,6 +1,10 @@
 import { useEffect, useRef } from "react";
 
-export const useScrollToBottom = (threadKey, lastItemId) => {
+/**
+ * Scrolls a container to the bottom when `threadKey` or `lastItemId` changes
+ * (e.g. new message or switched conversation). Returns a ref for the scrollable element.
+ */
+function useScrollToBottom(threadKey, lastItemId) {
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -15,4 +19,6 @@ export const useScrollToBottom = (threadKey, lastItemId) => {
   }, [threadKey, lastItemId]);
 
   return scrollRef;
-};
+}
+
+export default useScrollToBottom;

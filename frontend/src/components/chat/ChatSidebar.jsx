@@ -1,16 +1,14 @@
-import {
-  getInitials,
-  useSelectedConversation,
-} from "../../hooks/useSelectedConversation.js";
-import { useChatStore } from "../../store/useChatStore.js";
-import { useAuthStore } from "../../store/useAuthStore.js";
-import { APP_NAME, AppLogo } from "../AppLogo.jsx";
+import { getInitials, useSelectedConversation } from "../../hooks/useSelectedConversation";
+import { useAuthStore } from "../../store/useAuthStore";
+import { useChatStore } from "../../store/useChatStore";
+import { APP_NAME, AppLogo } from "../AppLogo";
 import { UserButton } from "@clerk/react";
+
 import { SearchField, Tabs } from "@heroui/react";
 import { MessageSquareIcon, UsersIcon } from "lucide-react";
-import { ConversationRow } from "./ConversationRow.jsx";
+import { ConversationRow } from "./ConversationRow";
 
-const mapUserForList = (user, onlineUsers) => {
+function mapUserForList(user, onlineUsers) {
   return {
     conversationId: user._id,
     id: user._id,
@@ -25,26 +23,29 @@ const mapUserForList = (user, onlineUsers) => {
       isOnline: onlineUsers.includes(user._id),
     },
   };
-};
+}
 
-const ChatSidebar = () => {
+function ChatSidebar() {
   const conversations = useChatStore((state) => state.conversations);
+
+  console.log(conversations);
   const users = useChatStore((state) => state.users);
+
   const searchQuery = useChatStore((state) => state.searchQuery);
   const setSearchQuery = useChatStore((state) => state.setSearchQuery);
+
   const sidebarTab = useChatStore((state) => state.sidebarTab);
   const setSidebarTab = useChatStore((state) => state.setSidebarTab);
-  const setActiveConversationId = useChatStore(
-    (state) => state.setActiveConversationId,
-  );
+
+  const setActiveConversationId = useChatStore((state) => state.setActiveConversationId);
+
   const onlineUsers = useAuthStore((state) => state.onlineUsers);
+
   const { activeConversationId, isLargeScreen } = useSelectedConversation();
 
   const normalizedSearchQuery = searchQuery.trim().toLowerCase();
 
-  const conversationUsers = conversations.map((user) =>
-    mapUserForList(user, onlineUsers),
-  );
+  const conversationUsers = conversations.map((user) => mapUserForList(user, onlineUsers));
   const allUsers = users.map((user) => mapUserForList(user, onlineUsers));
 
   const filteredConversations = normalizedSearchQuery
@@ -54,10 +55,9 @@ const ChatSidebar = () => {
     : conversationUsers;
 
   const filteredUsers = normalizedSearchQuery
-    ? allUsers.filter((user) =>
-        user.name.toLowerCase().includes(normalizedSearchQuery),
-      )
+    ? allUsers.filter((user) => user.name.toLowerCase().includes(normalizedSearchQuery))
     : allUsers;
+
   return (
     <aside
       className={`w-full shrink-0 flex-col overflow-hidden border-r border-border lg:w-72 ${
@@ -66,11 +66,7 @@ const ChatSidebar = () => {
     >
       <div className="shrink-0 border-b border-border px-2 pb-2 pt-2.5 sm:px-3 sm:pt-3">
         <div className="flex items-center gap-2 px-0.5 sm:gap-2.5 sm:px-1">
-          <AppLogo
-            size={32}
-            className="size-8 shrink-0 rounded-[9px] sm:size-8.5"
-            alt=""
-          />
+          <AppLogo size={32} className="size-8 shrink-0 rounded-[9px] sm:size-8.5" alt="" />
           <p className="flex-1 truncate text-lg font-bold tracking-tight sm:text-[22px]">
             {APP_NAME}
           </p>
@@ -139,14 +135,9 @@ const ChatSidebar = () => {
           )}
         </Tabs.Panel>
 
-        <Tabs.Panel
-          id="users"
-          className="flex-1 overflow-x-hidden overflow-y-auto outline-none"
-        >
+        <Tabs.Panel id="users" className="flex-1 overflow-x-hidden overflow-y-auto outline-none">
           {filteredUsers.length === 0 ? (
-            <p className="px-4 py-6 text-center text-sm text-muted">
-              No people match your search.
-            </p>
+            <p className="px-4 py-6 text-center text-sm text-muted">No people match your search.</p>
           ) : (
             filteredUsers.map((user) => (
               <ConversationRow
@@ -161,6 +152,5 @@ const ChatSidebar = () => {
       </Tabs>
     </aside>
   );
-};
-
+}
 export default ChatSidebar;
